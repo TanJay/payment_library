@@ -12,13 +12,16 @@
 ![GitHub](https://img.shields.io/github/license/TanJay/payment_library.svg)
 ![Uptime Robot status](https://img.shields.io/uptimerobot/status/m782945181-ad584048798a2d55463d26c8.svg)
 ![GitHub Release Date](https://img.shields.io/github/release-date/TanJay/payment_library.svg)
+[![Build Status](https://travis-ci.org/TanJay/payment_library.svg?branch=master)](https://travis-ci.org/TanJay/payment_library)
 
 Hi, Currently we have only integrated **Genie** payemnt gateway.
 
 # Demo Application
 
 ![Payment Screen](https://i.ibb.co/fM9yG3Q/Image-payment.jpg)
+
 *[Payment Screen] Screenshot*
+
 # Installation
 
 Add it in your root *build.gradle* at the end of repositories
