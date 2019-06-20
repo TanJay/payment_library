@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        debug {
+            resValue 'string', "pg_identifier", (rootProject.findProperty("payment_pg_identifier") ?: "0")
+            resValue 'string', "store_name", (rootProject.findProperty("payment_store_name") ?: "0")
+            resValue 'string', "secret_code", (rootProject.findProperty("payment_secret_code") ?: "0")
+            resValue 'string', "currency",(rootProject.findProperty("payment_currency") ?: "0")
+            resValue 'string', "pub_port", (rootProject.findProperty("payment_pub_port") ?: "0")
+            resValue 'string', "pub_server", (rootProject.findProperty("payment_pub_server") ?: "0")
+            resValue 'string', "pub_username", (rootProject.findProperty("payment_pub_username") ?: "0")
+            resValue 'string', "pub_password", (rootProject.findProperty("payment_pub_password") ?: "0")
+            resValue 'string', "callback", (rootProject.findProperty("payment_callback") ?: "0")
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue 'string', "pg_identifier", (rootProject.findProperty("payment_pg_identifier") ?: "0")
+            resValue 'string', "store_name", (rootProject.findProperty("payment_store_name") ?: "0")
+            resValue 'string', "secret_code", (rootProject.findProperty("payment_secret_code") ?: "0")
+            resValue 'string', "currency",(rootProject.findProperty("payment_currency") ?: "0")
+            resValue 'string', "pub_port", (rootProject.findProperty("payment_pub_port") ?: "0")
+            resValue 'string', "pub_server", (rootProject.findProperty("payment_pub_server") ?: "0")
+            resValue 'string', "pub_username", (rootProject.findProperty("payment_pub_username") ?: "0")
+            resValue 'string', "pub_password", (rootProject.findProperty("payment_pub_password") ?: "0")
+            resValue 'string', "callback", (rootProject.findProperty("payment_callback") ?: "0")
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.google.guava:guava:27.0.1-android'
+    implementation('org.eclipse.paho:org.eclipse.paho.android.service:1.0.2') {
+        exclude module: 'support-v4'
+    }
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+    implementation "android.arch.lifecycle:viewmodel:1.1.1"
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+

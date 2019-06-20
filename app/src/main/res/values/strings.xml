@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">PaymentLibraryProject</string>
+    <string name="pg_identifier">PG00011535</string>
+    <string name="store_name">MCO0005338</string>
+    <string name="secret_code">570acf56da484dd2b23a40f8d6c34e86</string>
+    <string name="currency">LKR</string>
+    <string name="pub_port">1883</string>
+    <string name="pub_server">51.158.175.210</string>
+    <string name="pub_username">connectbench</string>
+    <string name="pub_password">42e4J3lJ&amp;2QDdDQ</string>
+    <string name="callback">http://51.158.175.210:3000/api/payment</string>
+</resources>
