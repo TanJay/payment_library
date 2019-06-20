@@ -19,6 +19,7 @@ env:
  - ADB_INSTALL_TIMEOUT=5 # minutes
  - secure: "WzIhHhnmQf6jm9yMhzflTakFQjpj/+uli8JnQF9H3oAzGilOU/JqRgER68MsxWdcwOz2AMXdUPfmAU6a5jdrS/ou+bVkqi60Pa3/+dTzEr/A3eyqmpeVLzdWusK8+OtWFToSvgAGBI5ZM4a4zG2Izx+5xYmBwOHyiChIKIbSZBRrsEpxQZXJtrhwJy2+j5K39esL7IlKYphLBwuVwWfHFhCkYUTK5iz0ymuzT9BqSh/eQYrlP76o11Ln5Wxsx5n4TCdq4Y3pFkkwTzpXh0Xyh+9tw0Iz74YRGpdeNc2mWKYUn/ix8NBynEu3DgGeWjQo/eZ04qeDOVWlrLeaT5GbNr/Q0Z6HvE+u0hlNdEvnVYgWxl3YoIubhGEyYGU3VBVzBjATaQFKC1scSHFNflecP2tKJ2iBIYtaoxQkEEn/rD6SundAO58wz3hX9RsLrBp+zz9kdLxMZzk2S8W0K7qsYlYObD4W1HO5qS3r/hHsabrt+tkShd74f43EbA/vAJBoq0SXck0j45db3jWX4B3ik820TDDCaMXcjjAzgRvTprAg8V9C3euw71upStsK+HpXAJdH7eU9Hgk2vdxOooD5QCViQjSV89cTUWIwkzfuWvtvubITpDmp99+9f9X3AQMcXSm4E/b1rJNYbflfYGo/6N1bR8PfOO5IoZfHaGMafl0="
  - secure: "WzIhHhnmQf6jm9yMhzflTakFQjpj/+uli8JnQF9H3oAzGilOU/JqRgER68MsxWdcwOz2AMXdUPfmAU6a5jdrS/ou+bVkqi60Pa3/+dTzEr/A3eyqmpeVLzdWusK8+OtWFToSvgAGBI5ZM4a4zG2Izx+5xYmBwOHyiChIKIbSZBRrsEpxQZXJtrhwJy2+j5K39esL7IlKYphLBwuVwWfHFhCkYUTK5iz0ymuzT9BqSh/eQYrlP76o11Ln5Wxsx5n4TCdq4Y3pFkkwTzpXh0Xyh+9tw0Iz74YRGpdeNc2mWKYUn/ix8NBynEu3DgGeWjQo/eZ04qeDOVWlrLeaT5GbNr/Q0Z6HvE+u0hlNdEvnVYgWxl3YoIubhGEyYGU3VBVzBjATaQFKC1scSHFNflecP2tKJ2iBIYtaoxQkEEn/rD6SundAO58wz3hX9RsLrBp+zz9kdLxMZzk2S8W0K7qsYlYObD4W1HO5qS3r/hHsabrt+tkShd74f43EbA/vAJBoq0SXck0j45db3jWX4B3ik820TDDCaMXcjjAzgRvTprAg8V9C3euw71upStsK+HpXAJdH7eU9Hgk2vdxOooD5QCViQjSV89cTUWIwkzfuWvtvubITpDmp99+9f9X3AQMcXSm4E/b1rJNYbflfYGo/6N1bR8PfOO5IoZfHaGMafl0="
+
 android:
  components:
  - tools
@@ -38,7 +39,7 @@ android:
  - google-gdk-license-.+
 
 before_install:
-- openssl aes-256-cbc -K $encrypted_c0801aa05af4_key -iv $encrypted_c0801aa05af4_iv -in android_key.enc -out example_keystore.jks -d
+- openssl aes-256-cbc -K $encrypted_09f97491d5f5_key -iv $encrypted_09f97491d5f5_iv -in android_key.enc -out example_keystore.jks -d
 - mkdir "$ANDROID_HOME/licenses" || true
 - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
 - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
@@ -70,8 +71,8 @@ deploy:
   skip_cleanup: true
 
   on:
-    repo: harmittaa/travis-example-android
+    repo: TanJay/payment_library
     tags: true
     jdk: oraclejdk8
   api_key:
-    secure: "ShxzZffSJIrdwKSLbyBl8u9GLjo7kAT0a1FkAeD187qSZV4rUqM/tvNDeH6ySR/YxLvRg/UyfGyidcmh1z98heq5aBCfZj3xHn8rLi8HBfrTsMFs/NqhnJXKVzjbEGHe3hw9XghPV1QqWkZl9DGb5Bgptpz0wuF9m9X3C5ywKBFUdLbIKKgwv/6Qx3ByROECndKvkhwtNdXcO3NVPm68TIuGU5AMhyNFhbyattyDY8TyCDnSOQXoFSto71lYyKY5WafFiS4b92HgIHTZxOV2FBnWIaHTIDKdtHcBj/eNYRVb8CVjjxu2xoBcmgWVtxl/04RDq+mZX/lZuLLyIN0UN0h9Zj0Ks9ywmWRQQYKPm2qMJeCBDpBAqXTU6m0AeY3CdHTwvM4lx5gAO/exBe257Dk+TpvUdVH1auu9df3V7ERgfOkoUC9bRyy1E/kzK7p5dtEoyIJtGq+dqL5iMvaDbmrqFpUxtPShJupaaXHiSjD1gcusd+r7BklpbAWIDoLm7q3iuOzA/L86fB7VGkTOUaVYpJQ2AJRx8GfqcxxDAzQDfW7Ev7qsQmjUMjE1ck1XVlZmXgMmvCgnAve9yph0mPPma6iHsaocoE9SDJi07x6NFVfAEWLQupZufYBCsc8VCFUDrx2g/YsxoAecF+AEPkQ45eG9YRp2r6nayB1S864="
+    secure: "8f9ed832b6a590a46a6f609995d666e240d97bde"
