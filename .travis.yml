@@ -56,7 +56,7 @@ before_script:
 - echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-24
 - echo no | android create avd --force -n test -t android-24 --abi default/armeabi-v7a -c 100M
 - sdkmanager --update
-- echo "y" | sdkmanager --licenses
+- yes | sdkmanager --licenses
 - emulator -avd test -no-window &
 - android-wait-for-emulator
 - adb shell input keyevent 82 &
