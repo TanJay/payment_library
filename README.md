@@ -1,6 +1,7 @@
 
 
 
+
 # Payment Gateway Integration
 [![JitPack Build](https://jitpack.io/v/TanJay/payment_library.svg)](https://jitpack.io/#TanJay/payment_library)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/TanJay/payment_library.svg)
@@ -14,6 +15,10 @@
 
 Hi, Currently we have only integrated **Genie** payemnt gateway.
 
+# Demo Application
+
+![Payment Screen](https://i.ibb.co/fM9yG3Q/Image-payment.jpg)
+*[Payment Screen] Screenshot*
 # Installation
 
 Add it in your root *build.gradle* at the end of repositories
