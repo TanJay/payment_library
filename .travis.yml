@@ -52,8 +52,8 @@ before_install:
 before_script:
 - android list targets
 - android list sdk --extended --no-ui --all
-- echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-24,sys-img-x86_64-android-24
-- echo no | android create avd --force -n test -t android-24
+- echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-24
+- echo no | android create avd --force -n test -t android-24 --abi default/armeabi-v7a -c 100M
 - emulator -avd test -no-audio -no-window &
 - android-wait-for-emulator
 - adb shell input keyevent 82 &
