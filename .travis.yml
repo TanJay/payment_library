@@ -16,6 +16,7 @@ env:
  - ANDROID_API=24
  - EMULATOR_API=24
  - QEMU_AUDIO_DRV=none
+ - USE_SDK_WRAPPER=True
  - ANDROID_BUILD_TOOLS=24.0.2
  - ADB_INSTALL_TIMEOUT=5 # minutes
  - secure: "WzIhHhnmQf6jm9yMhzflTakFQjpj/+uli8JnQF9H3oAzGilOU/JqRgER68MsxWdcwOz2AMXdUPfmAU6a5jdrS/ou+bVkqi60Pa3/+dTzEr/A3eyqmpeVLzdWusK8+OtWFToSvgAGBI5ZM4a4zG2Izx+5xYmBwOHyiChIKIbSZBRrsEpxQZXJtrhwJy2+j5K39esL7IlKYphLBwuVwWfHFhCkYUTK5iz0ymuzT9BqSh/eQYrlP76o11Ln5Wxsx5n4TCdq4Y3pFkkwTzpXh0Xyh+9tw0Iz74YRGpdeNc2mWKYUn/ix8NBynEu3DgGeWjQo/eZ04qeDOVWlrLeaT5GbNr/Q0Z6HvE+u0hlNdEvnVYgWxl3YoIubhGEyYGU3VBVzBjATaQFKC1scSHFNflecP2tKJ2iBIYtaoxQkEEn/rD6SundAO58wz3hX9RsLrBp+zz9kdLxMZzk2S8W0K7qsYlYObD4W1HO5qS3r/hHsabrt+tkShd74f43EbA/vAJBoq0SXck0j45db3jWX4B3ik820TDDCaMXcjjAzgRvTprAg8V9C3euw71upStsK+HpXAJdH7eU9Hgk2vdxOooD5QCViQjSV89cTUWIwkzfuWvtvubITpDmp99+9f9X3AQMcXSm4E/b1rJNYbflfYGo/6N1bR8PfOO5IoZfHaGMafl0="
@@ -53,8 +54,8 @@ before_install:
 # Emulator Management: Create, Start and Wait
 # - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a -c 100M
 before_script:
-- android list target
-- android list sdk --extended --no-ui --all
+# - android list target
+# - android list sdk --extended --no-ui --all
 - echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-24
 - echo no | android create avd --force -n test -t android-24 --abi default/armeabi-v7a -c 100M
 # - echo "y" | sdkmanager --update
