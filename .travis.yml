@@ -56,8 +56,8 @@ before_install:
 before_script:
 - android list target
 - android list sdk --extended --no-ui --all
-- echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-24
-- echo no | android create avd --force -n test -t android-24 --abi default/armeabi-v7a -c 100M
+- echo "y" | android update sdk -a --no-ui --filter "system-images;android-24;default;armeabi-v7a"
+- echo no | android create avd --force -n test -t android-24 --abi "system-images;android-24;default;armeabi-v7a" -c 100M
 # - echo "y" | sdkmanager --update
 # - echo yes | sdkmanager --licenses
 - emulator -avd test -no-window &
