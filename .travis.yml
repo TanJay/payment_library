@@ -54,9 +54,9 @@ before_install:
 # Emulator Management: Create, Start and Wait
 # - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a -c 100M
 before_script:
-- android list target
+- sdkmanager --list
 - android list sdk --extended --no-ui --all
-- echo "y" | android update sdk -a --no-ui --filter "system-images;android-25;google_apis;armeabi-v7a"
+- echo "y" | sdkmanager "system-images;android-25;google_apis;armeabi-v7a"
 - echo no | android create avd --force -n test -t android-25 --abi armeabi-v7a -c 100M
 # - echo "y" | sdkmanager --update
 # - echo yes | sdkmanager --licenses
