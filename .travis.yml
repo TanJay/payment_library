@@ -1,28 +1,91 @@
-language: java
-jdk: oraclejdk9
-branches:
-  only:
-    - master
+language: android
+sudo: required
+jdk: oraclejdk8
+
+before_cache:
+ - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+ - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+ directories:
+ - $HOME/.gradle/caches/
+ - $HOME/.gradle/wrapper/
+
+env:
+ global:
+ - ANDROID_API=25
+ - EMULATOR_API=28
+ - ADB_INSTALL_TIMEOUT=5
+ - QEMU_AUDIO_DRV=none
+ - USE_SDK_WRAPPER=True
+ - ANDROID_BUILD_TOOLS=24.0.2
+ - ADB_INSTALL_TIMEOUT=5 # minutes
+ - secure: "WzIhHhnmQf6jm9yMhzflTakFQjpj/+uli8JnQF9H3oAzGilOU/JqRgER68MsxWdcwOz2AMXdUPfmAU6a5jdrS/ou+bVkqi60Pa3/+dTzEr/A3eyqmpeVLzdWusK8+OtWFToSvgAGBI5ZM4a4zG2Izx+5xYmBwOHyiChIKIbSZBRrsEpxQZXJtrhwJy2+j5K39esL7IlKYphLBwuVwWfHFhCkYUTK5iz0ymuzT9BqSh/eQYrlP76o11Ln5Wxsx5n4TCdq4Y3pFkkwTzpXh0Xyh+9tw0Iz74YRGpdeNc2mWKYUn/ix8NBynEu3DgGeWjQo/eZ04qeDOVWlrLeaT5GbNr/Q0Z6HvE+u0hlNdEvnVYgWxl3YoIubhGEyYGU3VBVzBjATaQFKC1scSHFNflecP2tKJ2iBIYtaoxQkEEn/rD6SundAO58wz3hX9RsLrBp+zz9kdLxMZzk2S8W0K7qsYlYObD4W1HO5qS3r/hHsabrt+tkShd74f43EbA/vAJBoq0SXck0j45db3jWX4B3ik820TDDCaMXcjjAzgRvTprAg8V9C3euw71upStsK+HpXAJdH7eU9Hgk2vdxOooD5QCViQjSV89cTUWIwkzfuWvtvubITpDmp99+9f9X3AQMcXSm4E/b1rJNYbflfYGo/6N1bR8PfOO5IoZfHaGMafl0="
+ - secure: "WzIhHhnmQf6jm9yMhzflTakFQjpj/+uli8JnQF9H3oAzGilOU/JqRgER68MsxWdcwOz2AMXdUPfmAU6a5jdrS/ou+bVkqi60Pa3/+dTzEr/A3eyqmpeVLzdWusK8+OtWFToSvgAGBI5ZM4a4zG2Izx+5xYmBwOHyiChIKIbSZBRrsEpxQZXJtrhwJy2+j5K39esL7IlKYphLBwuVwWfHFhCkYUTK5iz0ymuzT9BqSh/eQYrlP76o11Ln5Wxsx5n4TCdq4Y3pFkkwTzpXh0Xyh+9tw0Iz74YRGpdeNc2mWKYUn/ix8NBynEu3DgGeWjQo/eZ04qeDOVWlrLeaT5GbNr/Q0Z6HvE+u0hlNdEvnVYgWxl3YoIubhGEyYGU3VBVzBjATaQFKC1scSHFNflecP2tKJ2iBIYtaoxQkEEn/rD6SundAO58wz3hX9RsLrBp+zz9kdLxMZzk2S8W0K7qsYlYObD4W1HO5qS3r/hHsabrt+tkShd74f43EbA/vAJBoq0SXck0j45db3jWX4B3ik820TDDCaMXcjjAzgRvTprAg8V9C3euw71upStsK+HpXAJdH7eU9Hgk2vdxOooD5QCViQjSV89cTUWIwkzfuWvtvubITpDmp99+9f9X3AQMcXSm4E/b1rJNYbflfYGo/6N1bR8PfOO5IoZfHaGMafl0="
+
+android:
+ components:
+ - tools
+ - platform-tools
+ - build-tools-$ANDROID_BUILD_TOOLS
+ - android-$ANDROID_API
+ - android-$EMULATOR_API_LEVEL
+ - extra-google-m2repository
+ - extra-android-m2repository # for design library
+ - addon-google_apis-google-19 # google play services
+ - sys-img-armeabi-v7a-addon-google_apis-google-$ANDROID_API_LEVEL
+ - sys-img-armeabi-v7a-addon-google_apis-google-$EMULATOR_API_LEVEL
+
+ licenses:
+ - android-sdk-preview-license-.+
+ - android-sdk-license-.+
+ - google-gdk-license-.+
+
 before_install:
-  - chmod +x gradlew
-  # Install base Android SDK
-  - sudo apt-get update -qq
-  - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch > /dev/null; fi
-  - wget http://dl.google.com/android/android-sdk_r22.0.5-linux.tgz
-  - tar xzf android-sdk_r22.0.5-linux.tgz
-  - export ANDROID_HOME=$PWD/android-sdk-linux
-  - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
-  # install android build tools
-  - wget https://dl-ssl.google.com/android/repository/build-tools_r19.0.1-linux.zip
-  - unzip build-tools_r19.0.1-linux.zip -d $ANDROID_HOME
-  - mkdir -p $ANDROID_HOME/build-tools/
-  - mv $ANDROID_HOME/android-4.4.2 $ANDROID_HOME/build-tools/19.0.1
-  # Install required components.
-  - echo yes | android update sdk --filter platform-tools --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter android-19 --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter extra-android-support --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force > /dev/null
-install:
-  - true
+- openssl aes-256-cbc -K $encrypted_09f97491d5f5_key -iv $encrypted_09f97491d5f5_iv -in android_key.enc -out example_keystore.jks -d
+- mkdir "$ANDROID_HOME/licenses" || true
+- echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+- echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+- yes | sdkmanager --update
+- yes | sdkmanager --licenses
+- chmod +x gradlew
+- ./gradlew dependencies || true # DON'T ADD unless you are getting "Install missing components using SDK manager"
+#Source: https://medium.com/@oldergod/constraint-layout-and-circleci-travis-d50342696d2
+
+# Emulator Management: Create, Start and Wait
+# - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a -c 100M
+before_script:
+- sdkmanager --list
+- android list sdk --extended --no-ui --all
+- echo "y" | sdkmanager "system-images;android-25;google_apis;armeabi-v7a"
+- echo no | android create avd --force -n test -k "system-images;android-25;google_apis;armeabi-v7a"
+# - echo "y" | sdkmanager --update
+# - echo yes | sdkmanager --licenses
+# - emulator -avd test -no-window &
+- $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &
+- android-wait-for-emulator
+- adb shell input keyevent 82 &
+
 script:
-  - TERM=dumb ./gradlew test assembleDebug
+- "./gradlew clean build connectedCheck -PdisablePreDex --stacktrace"
+
+before_deploy:
+- cp $TRAVIS_BUILD_DIR/example_keystore.jks $HOME
+- cd app/build/outputs/apk/
+- jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/example_keystore.jks -storepass $storepass -keypass $keypass app-release-unsigned.apk ExampleKeystoreAlias
+
+# Verification
+- jarsigner -verify app-release-unsigned.apk
+- "${ANDROID_HOME}/build-tools/24.0.2/zipalign -v 4 app-release-unsigned.apk TravisExample.apk"
+
+deploy:
+  provider: releases
+  file: TravisExample.apk
+  skip_cleanup: true
+
+  on:
+    repo: TanJay/payment_library
+    tags: true
+    jdk: oraclejdk8
+  api_key:
+    secure: "8f9ed832b6a590a46a6f609995d666e240d97bde"

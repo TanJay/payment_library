@@ -1,10 +1,26 @@
 
 
 
+
 # Payment Gateway Integration
 [![JitPack Build](https://jitpack.io/v/TanJay/payment_library.svg)](https://jitpack.io/#TanJay/payment_library)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/TanJay/payment_library.svg)
+![GitHub language count](https://img.shields.io/github/languages/count/TanJay/payment_library.svg)
+![JitPack - Downloads](https://img.shields.io/jitpack/dm/github/TanJay/payment_library.svg)
+![GitHub issues](https://img.shields.io/github/issues/TanJay/payment_library.svg)
+![GitHub last commit](https://img.shields.io/github/last-commit/TanJay/payment_library.svg)
+![GitHub](https://img.shields.io/github/license/TanJay/payment_library.svg)
+![Uptime Robot status](https://img.shields.io/uptimerobot/status/m782945181-ad584048798a2d55463d26c8.svg)
+![GitHub Release Date](https://img.shields.io/github/release-date/TanJay/payment_library.svg)
+[![Build Status](https://travis-ci.org/TanJay/payment_library.svg?branch=master)](https://travis-ci.org/TanJay/payment_library)
 
 Hi, Currently we have only integrated **Genie** payemnt gateway.
+
+# Demo Application
+
+![Payment Screen](https://i.ibb.co/fM9yG3Q/Image-payment.jpg)
+
+*[Payment Screen] Screenshot*
 
 # Installation
 
