@@ -4,6 +4,8 @@ import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,11 +16,23 @@ import lk.connectbench.payment.Exceptions.LoadConfigException;
 
 public class GeneralHelper {
 
-    protected static boolean nullOrEmptyCheck(String...set){
-        for (String str:set) {
-            if(str == null || str.isEmpty()) return true;
+    protected static void nullOrEmptyCheck(AppConfig appConfig) {
+        for (Method method : appConfig.getClass().getMethods()) {
+            if (method.getName().contains("get")) {
+                String value = null;
+                try {
+                    value = method.invoke(appConfig).toString();
+                    if (value == null || value.isEmpty())
+                        throw new LoadConfigException();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (ClassCastException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        throw new LoadConfigException();
     }
 
     public static String generateOrderId(){

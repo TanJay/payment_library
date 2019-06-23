@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import dagger.Component;
 import lk.connectbench.payment.DTOs.AppConfig;
 import lk.connectbench.payment.Enums.StringConfig;
 import lk.connectbench.payment.Exceptions.LoadConfigException;
@@ -34,10 +33,8 @@ public class ManifestLoadConfig implements ILoadConfig {
         //General Config Load
         config.setOrderId(GeneralHelper.generateOrderId());
         config.setAmount(amount);
-
-//        GeneralHelper.nullOrEmptyCheck(config);
+        GeneralHelper.nullOrEmptyCheck(config);
         return config;
-
     }
 
 
