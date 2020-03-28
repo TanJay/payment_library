@@ -11,12 +11,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import lk.connectbench.payment.DTOs.AppConfig;
+import lk.connectbench.payment.DTOs.CardSaveConfig;
 import lk.connectbench.payment.Enums.StringConfig;
 import lk.connectbench.payment.Exceptions.LoadConfigException;
 
 public class GeneralHelper {
 
-    protected static void nullOrEmptyCheck(AppConfig appConfig) {
+    protected static <T> void nullOrEmptyCheck(T appConfig) {
         for (Method method : appConfig.getClass().getMethods()) {
             if (method.getName().contains("get")) {
                 String value = null;
@@ -46,6 +47,13 @@ public class GeneralHelper {
                 .toString();
     }
 
+    private static String generateTokenizationToken(CardSaveConfig appConfig, String dateTime){
+        String preToken = appConfig.getInvoiceNumber() + appConfig.getStoreName() + appConfig.getMerchantPgIdentifier() + appConfig.getAmount() + dateTime;
+        return Hashing.sha256()
+                .hashString(preToken, Charsets.UTF_8)
+                .toString();
+    }
+
     private static String getDateTime(){
         Date date = new Date();
         SimpleDateFormat dt1 = new SimpleDateFormat(getValue(StringConfig.DATE_FORMAT));
@@ -53,7 +61,7 @@ public class GeneralHelper {
         return dateTime;
     }
 
-    public static String generateGeniePost(AppConfig appConfig){
+    public static String generateGeniePayment(AppConfig appConfig){
         String dateTime = getDateTime();
         String postData = null;
         try {
@@ -68,6 +76,45 @@ public class GeneralHelper {
                     + "&storeName=" + URLEncoder.encode(appConfig.getStoreName(), "UTF-8")
                     + "&transactionDateTime=" + URLEncoder.encode(dateTime, "UTF-8")
                     + "&token=" + URLEncoder.encode(generateToken(appConfig, dateTime), "UTF-8");
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return postData;
+    }
+
+    public static String generateGenieCardSaveWithInitialTransaction(CardSaveConfig appConfig){
+        String dateTime = getDateTime();
+        String postData = null;
+        try {
+            postData =
+                    "currency=" + URLEncoder.encode(appConfig.getCurrency(), "UTF-8")
+                    + "&cardSaveType=" + URLEncoder.encode(appConfig.getCardSaveType(), "UTF-8")
+                    + "&invoiceNumber=" + URLEncoder.encode(appConfig.getInvoiceNumber(), "UTF-8")
+                    + "&merchantDisplayName=" + URLEncoder.encode(appConfig.getMerchantDisplayName(), "UTF-8")
+                    + "&language=" + URLEncoder.encode("en", "UTF-8")
+                    + "&token=" + URLEncoder.encode(generateTokenizationToken(appConfig, dateTime), "UTF-8")
+                    + "&chargeTotal=" + URLEncoder.encode(appConfig.getAmount(), "UTF-8")
+                    + "&transactionDateTime=" + URLEncoder.encode(dateTime, "UTF-8")
+                    + "&merchantPgIdentifier=" + URLEncoder.encode(appConfig.getMerchantPgIdentifier(), "UTF-8")
+                    + "&storeName=" + URLEncoder.encode(appConfig.getStoreName(), "UTF-8");
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return postData;
+    }
+
+
+    public static String generateGenieCardSave(CardSaveConfig appConfig){
+        String postData = null;
+        try {
+            postData = "cardSaveType=" + URLEncoder.encode(appConfig.getCardSaveType(), "UTF-8")
+                    + "&invoiceNumber=" + URLEncoder.encode(appConfig.getInvoiceNumber(), "UTF-8")
+                    + "&merchantDisplayName=" + URLEncoder.encode(appConfig.getMerchantDisplayName(), "UTF-8")
+                    + "&language=" + URLEncoder.encode("en", "UTF-8")
+                    + "&merchantPgIdentifier=" + URLEncoder.encode(appConfig.getMerchantPgIdentifier(), "UTF-8")
+                    + "&storeName=" + URLEncoder.encode(appConfig.getStoreName(), "UTF-8");
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

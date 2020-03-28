@@ -14,6 +14,8 @@ import lk.connectbench.payment.GeniePayment;
 
 public class MainActivity extends AppCompatActivity {
     Button btnPay;
+    Button btnPaywOTrans;
+    Button btnPaywTrans;
     EditText text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +23,39 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btnPay = findViewById(R.id.button);
+        btnPaywOTrans = findViewById(R.id.button3);
+        btnPaywTrans = findViewById(R.id.button2);
         text = findViewById(R.id.editText);
+
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    GeniePayment.Process(MainActivity.this, text.getText().toString());
+                    GeniePayment.processPayment(MainActivity.this, text.getText().toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        btnPaywOTrans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    GeniePayment.processSaveCard(MainActivity.this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        btnPaywTrans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    GeniePayment.processSaveCardWithInitialTransaction(MainActivity.this, text.getText().toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -37,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         GeniePayment.getListner(this).getCurrentName().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String name) {
+                Log.d("Genie - Result", "name");
                 Log.d("Genie - Result", "name");
                 if(name.equals("1")){
                     GeniePayment.dismiss();

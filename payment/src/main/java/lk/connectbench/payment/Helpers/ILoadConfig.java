@@ -4,8 +4,8 @@ import android.content.Context;
 
 import lk.connectbench.payment.DTOs.AppConfig;
 
-public interface ILoadConfig {
+public interface ILoadConfig<T> {
 
-    AppConfig load(Context context, String amount);
+    T load(Context context, String amount);
 
 }

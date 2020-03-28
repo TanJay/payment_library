@@ -11,7 +11,13 @@ public enum  StringConfig {
     PUB_PORT("pub_port"),
     PUB_USERNAME("pub_username"),
     PUB_PASSWORD("pub_password"),
-    CALLBACK_URL("callback");
+    CALLBACK_URL("callback"),
+    MERCHANT_IDENTIFIER("merchant_identifier"),
+    TOKEN_STORE_NAME("token_store_name"),
+    LANGUAGE("language"),
+    MERCHANT_NAME("merchant_display"),
+    BANNER_HIDE("banner_hide"),
+    CARD_SAVE_TYPE("card_save_type");
 
     private final String value;
 

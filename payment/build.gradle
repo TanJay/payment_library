@@ -25,6 +25,12 @@ android {
             resValue 'string', "pub_username", (rootProject.findProperty("payment_pub_username") ?: "0")
             resValue 'string', "pub_password", (rootProject.findProperty("payment_pub_password") ?: "0")
             resValue 'string', "callback", (rootProject.findProperty("payment_callback") ?: "0")
+            resValue 'string', "merchant_identifier", (rootProject.findProperty("tokenization_merchant_identifier") ?: "0")
+            resValue 'string', "token_store_name", (rootProject.findProperty("tokenization_store_name") ?: "0")
+            resValue 'string', "language", (rootProject.findProperty("tokenization_language") ?: "0")
+            resValue 'string', "card_save_type", (rootProject.findProperty("tokenization_card_save_type") ?: "0")
+            resValue 'string', "merchant_display", (rootProject.findProperty("tokenization_merchant_display") ?: "0")
+            resValue 'string', "banner_hide", (rootProject.findProperty("banner_hide") ?: "0")
         }
         release {
             minifyEnabled false
@@ -38,6 +44,12 @@ android {
             resValue 'string', "pub_username", (rootProject.findProperty("payment_pub_username") ?: "0")
             resValue 'string', "pub_password", (rootProject.findProperty("payment_pub_password") ?: "0")
             resValue 'string', "callback", (rootProject.findProperty("payment_callback") ?: "0")
+            resValue 'string', "merchant_identifier", (rootProject.findProperty("tokenization_merchant_identifier") ?: "0")
+            resValue 'string', "token_store_name", (rootProject.findProperty("tokenization_store_name") ?: "0")
+            resValue 'string', "language", (rootProject.findProperty("tokenization_language") ?: "0")
+            resValue 'string', "card_save_type", (rootProject.findProperty("tokenization_card_save_type") ?: "0")
+            resValue 'string', "merchant_display", (rootProject.findProperty("tokenization_merchant_display") ?: "0")
+            resValue 'string', "banner_hide", (rootProject.findProperty("banner_hide") ?: "0")
         }
     }
 
