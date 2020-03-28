@@ -14,7 +14,7 @@ class MessageCallbackHandler implements MqttCallback {
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-        GeniePayment.sendUpdate(message.toString());
+//        GeniePayment.sendUpdate(message.toString());
     }
 
     @Override

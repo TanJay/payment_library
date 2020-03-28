@@ -8,7 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import java.util.Map;
+
+import lk.connectbench.payment.DTOs.TransactionResponse;
 import lk.connectbench.payment.GeniePayment;
 
 
@@ -63,14 +67,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        GeniePayment.getListner(this).getCurrentName().observe(this, new Observer<String>() {
+        GeniePayment.getListner(this).getCurrentName().observe(this, new Observer<TransactionResponse>() {
             @Override
-            public void onChanged(@Nullable String name) {
-                Log.d("Genie - Result", "name");
-                Log.d("Genie - Result", "name");
-                if(name.equals("1")){
-                    GeniePayment.dismiss();
+            public void onChanged(@Nullable TransactionResponse result) {
+                if(result.getStatus()){
+                    Toast.makeText(getApplicationContext(), String.format("Failed: %s", result.getMessage()), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), String.format("Success: %s", result.getMessage()), Toast.LENGTH_LONG).show();
                 }
+                GeniePayment.dismiss();
             }
         });
 

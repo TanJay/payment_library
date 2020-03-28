@@ -6,12 +6,18 @@ import com.google.common.hash.Hashing;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import lk.connectbench.payment.DTOs.AppConfig;
 import lk.connectbench.payment.DTOs.CardSaveConfig;
+import lk.connectbench.payment.DTOs.TransactionResponse;
 import lk.connectbench.payment.Enums.StringConfig;
 import lk.connectbench.payment.Exceptions.LoadConfigException;
 
@@ -35,6 +41,30 @@ public class GeneralHelper {
             }
         }
     }
+
+    public static TransactionResponse resultExtracter(String url) throws MalformedURLException, UnsupportedEncodingException {
+        Map<String, String> urlResponse = splitQuery(new URL(url));
+        TransactionResponse response = new TransactionResponse();
+        response.setCardSaveType(urlResponse.get("cardSaveType").equals("Y"));
+        response.setStatusCode(urlResponse.get("code"));
+        response.setMessage(urlResponse.get("message"));
+        response.setStatus(urlResponse.get("status").equals("failure"));
+        response.setInvoiceNumber(urlResponse.get("invoiceNumber"));
+        if(!response.getStatus()) response.setPreviousInvoice(urlResponse.get("previousInvoiceNumber"));
+        return response;
+    }
+
+    public static Map<String, String> splitQuery(URL url) throws UnsupportedEncodingException {
+        Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+        String query = url.getQuery();
+        String[] pairs = query.split("&");
+        for (String pair : pairs) {
+            int idx = pair.indexOf("=");
+            query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"), URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
+        }
+        return query_pairs;
+    }
+
 
     public static String generateOrderId(){
         return String.valueOf((int)(Math.random() * 9999999 + 1));

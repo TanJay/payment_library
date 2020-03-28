@@ -5,21 +5,35 @@ import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.JavascriptInterface;
+import android.webkit.URLUtil;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import lk.connectbench.payment.DTOs.AppConfig;
 import lk.connectbench.payment.DTOs.CardSaveConfig;
+import lk.connectbench.payment.DTOs.TransactionResponse;
 import lk.connectbench.payment.Enums.StringConfig;
 import lk.connectbench.payment.Helpers.GeneralHelper;
 import lk.connectbench.payment.Helpers.ILoadConfig;
@@ -143,7 +157,7 @@ public class GeniePayment extends Activity {
             layout.setVisibility(View.GONE);
     }
 
-    public static void sendUpdate(String message){
+    public static void sendUpdate(TransactionResponse message){
         resultListnerModel.getCurrentName().postValue(message);
     }
 
@@ -155,6 +169,18 @@ public class GeniePayment extends Activity {
                 return false;
             }
 
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                if(url.contains("connectbench.lk/testing")){
+                    try {
+                        sendUpdate(GeneralHelper.resultExtracter(url));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         });
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
@@ -163,9 +189,12 @@ public class GeniePayment extends Activity {
         webView.getSettings().setMinimumLogicalFontSize(1);
     }
 
+
+
     public static void dismiss(){
         try {
             if(MQTTSubscribeListner.client != null) MQTTSubscribeListner.client.disconnect();
+            dialog.cancel();
         } catch (MqttException e) {
             e.printStackTrace();
         }
