@@ -1,16 +1,13 @@
 package lk.connectbench.paymentlibraryproject;
 
 import android.arch.lifecycle.Observer;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import java.util.Map;
 
 import lk.connectbench.payment.DTOs.TransactionResponse;
 import lk.connectbench.payment.GeniePayment;
@@ -71,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable TransactionResponse result) {
                 if(result.getStatus()){
-                    Toast.makeText(getApplicationContext(), String.format("Failed: %s", result.getMessage()), Toast.LENGTH_LONG).show();
-                } else {
                     Toast.makeText(getApplicationContext(), String.format("Success: %s", result.getMessage()), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), String.format("Failed: %s", result.getMessage()), Toast.LENGTH_LONG).show();
                 }
                 GeniePayment.dismiss();
             }

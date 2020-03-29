@@ -1,5 +1,8 @@
 package lk.connectbench.payment.Helpers;
 
+import android.content.Context;
+import android.webkit.WebView;
+
 import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
 
@@ -15,11 +18,16 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import lk.connectbench.payment.DTOs.AppConfig;
 import lk.connectbench.payment.DTOs.CardSaveConfig;
+import lk.connectbench.payment.DTOs.PaymentConfig;
 import lk.connectbench.payment.DTOs.TransactionResponse;
+import lk.connectbench.payment.Enums.AppURL;
 import lk.connectbench.payment.Enums.StringConfig;
 import lk.connectbench.payment.Exceptions.LoadConfigException;
+
+import static lk.connectbench.payment.Enums.AppURL.CARD_SAVE_ONLY;
+import static lk.connectbench.payment.Enums.AppURL.CARD_SAVE_W_TRANSACTION;
+import static lk.connectbench.payment.Enums.AppURL.PAYMENT_ONLY;
 
 public class GeneralHelper {
 
@@ -42,15 +50,28 @@ public class GeneralHelper {
         }
     }
 
+    public static String getURLTrigger(Context contex) {
+        return TokenManifestLoadConfig.getMetaData(contex, getValue(StringConfig.URL_CONTAIN_TRIGGER));
+    }
+
     public static TransactionResponse resultExtracter(String url) throws MalformedURLException, UnsupportedEncodingException {
         Map<String, String> urlResponse = splitQuery(new URL(url));
         TransactionResponse response = new TransactionResponse();
-        response.setCardSaveType(urlResponse.get("cardSaveType").equals("Y"));
+        response.setTokenization(!urlResponse.containsKey("charge_total"));
+        if (urlResponse.containsKey("charge_total")) {
+            response.setInvoiceNumber(urlResponse.get("invoice_number"));
+            response.setStatus(urlResponse.get("status").equals("YES"));
+            response.setCardSaveType(false);
+        } else {
+            response.setCardSaveType(urlResponse.get("cardSaveType").equals("Y"));
+            response.setInvoiceNumber(urlResponse.get("invoiceNumber"));
+            response.setStatus(!urlResponse.get("status").equals("failure"));
+            if (!response.getStatus() && response.isTokenization())
+                response.setPreviousInvoice(urlResponse.get("previousInvoiceNumber"));
+
+        }
         response.setStatusCode(urlResponse.get("code"));
         response.setMessage(urlResponse.get("message"));
-        response.setStatus(urlResponse.get("status").equals("failure"));
-        response.setInvoiceNumber(urlResponse.get("invoiceNumber"));
-        if(!response.getStatus()) response.setPreviousInvoice(urlResponse.get("previousInvoiceNumber"));
         return response;
     }
 
@@ -70,8 +91,8 @@ public class GeneralHelper {
         return String.valueOf((int)(Math.random() * 9999999 + 1));
     }
 
-    private static String generateToken(AppConfig appConfig, String dateTime){
-        String preToken = appConfig.getStoreName() + appConfig.getCurrency() + appConfig.getSecretCode() + dateTime + appConfig.getAmount();
+    private static String generateToken(PaymentConfig paymentConfig, String dateTime) {
+        String preToken = paymentConfig.getStoreName() + paymentConfig.getCurrency() + paymentConfig.getSecretCode() + dateTime + paymentConfig.getAmount();
         return Hashing.sha1()
                 .hashString(preToken, Charsets.UTF_8)
                 .toString();
@@ -91,21 +112,21 @@ public class GeneralHelper {
         return dateTime;
     }
 
-    public static String generateGeniePayment(AppConfig appConfig){
+    private static String generateGeniePayment(PaymentConfig paymentConfig) {
         String dateTime = getDateTime();
         String postData = null;
         try {
-            postData = "merchantPgIdentifier=" + URLEncoder.encode(appConfig.getPGIdentifier(), "UTF-8")
-                    + "&chargeTotal=" + URLEncoder.encode(appConfig.getAmount(), "UTF-8")
-                    + "&currency=" + URLEncoder.encode(appConfig.getCurrency(), "UTF-8")
+            postData = "merchantPgIdentifier=" + URLEncoder.encode(paymentConfig.getPGIdentifier(), "UTF-8")
+                    + "&chargeTotal=" + URLEncoder.encode(paymentConfig.getAmount(), "UTF-8")
+                    + "&currency=" + URLEncoder.encode(paymentConfig.getCurrency(), "UTF-8")
                     + "&paymentMethod=" + URLEncoder.encode("SALE", "UTF-8")
-                    + "&orderId=" + URLEncoder.encode(appConfig.getOrderId(), "UTF-8")
-                    + "&invoiceNumber=" + URLEncoder.encode(appConfig.getOrderId(), "UTF-8")
-                    + "&successUrl=" + URLEncoder.encode(appConfig.getCallbackURL(), "UTF-8")
-                    + "&errorUrl=" + URLEncoder.encode(appConfig.getCallbackURL(), "UTF-8")
-                    + "&storeName=" + URLEncoder.encode(appConfig.getStoreName(), "UTF-8")
+                    + "&orderId=" + URLEncoder.encode(paymentConfig.getOrderId(), "UTF-8")
+                    + "&invoiceNumber=" + URLEncoder.encode(paymentConfig.getOrderId(), "UTF-8")
+                    + "&successUrl=" + URLEncoder.encode(paymentConfig.getCallbackURL(), "UTF-8")
+                    + "&errorUrl=" + URLEncoder.encode(paymentConfig.getCallbackURL(), "UTF-8")
+                    + "&storeName=" + URLEncoder.encode(paymentConfig.getStoreName(), "UTF-8")
                     + "&transactionDateTime=" + URLEncoder.encode(dateTime, "UTF-8")
-                    + "&token=" + URLEncoder.encode(generateToken(appConfig, dateTime), "UTF-8");
+                    + "&token=" + URLEncoder.encode(generateToken(paymentConfig, dateTime), "UTF-8");
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -113,7 +134,21 @@ public class GeneralHelper {
         return postData;
     }
 
-    public static String generateGenieCardSaveWithInitialTransaction(CardSaveConfig appConfig){
+    public static <T> void initiateWebView(AppURL url, WebView webView, T config) {
+        switch (url) {
+            case PAYMENT_ONLY:
+                webView.postUrl(PAYMENT_ONLY.getValue(), generateGeniePayment((PaymentConfig) config).getBytes());
+                break;
+            case CARD_SAVE_ONLY:
+                webView.postUrl(CARD_SAVE_ONLY.getValue(), generateGenieCardSave((CardSaveConfig) config).getBytes());
+                break;
+            case CARD_SAVE_W_TRANSACTION:
+                webView.postUrl(CARD_SAVE_W_TRANSACTION.getValue(), generateGenieCardSaveWithInitialTransaction((CardSaveConfig) config).getBytes());
+                break;
+        }
+    }
+
+    private static String generateGenieCardSaveWithInitialTransaction(CardSaveConfig appConfig) {
         String dateTime = getDateTime();
         String postData = null;
         try {
@@ -136,7 +171,7 @@ public class GeneralHelper {
     }
 
 
-    public static String generateGenieCardSave(CardSaveConfig appConfig){
+    private static String generateGenieCardSave(CardSaveConfig appConfig) {
         String postData = null;
         try {
             postData = "cardSaveType=" + URLEncoder.encode(appConfig.getCardSaveType(), "UTF-8")

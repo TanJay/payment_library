@@ -2,12 +2,25 @@ package lk.connectbench.payment.DTOs;
 
 public class TransactionResponse {
 
+    private boolean isTokenization;
     private String statusCode;
     private String message;
     private boolean status;
     private String invoiceNumber;
     private boolean cardSaveType;
     private String previousInvoice;
+
+    public boolean isTokenization() {
+        return isTokenization;
+    }
+
+    public void setTokenization(boolean tokenization) {
+        isTokenization = tokenization;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
 
     public String getStatusCode() {
         return statusCode;

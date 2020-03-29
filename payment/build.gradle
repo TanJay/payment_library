@@ -20,10 +20,6 @@ android {
             resValue 'string', "store_name", (rootProject.findProperty("payment_store_name") ?: "0")
             resValue 'string', "secret_code", (rootProject.findProperty("payment_secret_code") ?: "0")
             resValue 'string', "currency",(rootProject.findProperty("payment_currency") ?: "0")
-            resValue 'string', "pub_port", (rootProject.findProperty("payment_pub_port") ?: "0")
-            resValue 'string', "pub_server", (rootProject.findProperty("payment_pub_server") ?: "0")
-            resValue 'string', "pub_username", (rootProject.findProperty("payment_pub_username") ?: "0")
-            resValue 'string', "pub_password", (rootProject.findProperty("payment_pub_password") ?: "0")
             resValue 'string', "callback", (rootProject.findProperty("payment_callback") ?: "0")
             resValue 'string', "merchant_identifier", (rootProject.findProperty("tokenization_merchant_identifier") ?: "0")
             resValue 'string', "token_store_name", (rootProject.findProperty("tokenization_store_name") ?: "0")
@@ -31,6 +27,7 @@ android {
             resValue 'string', "card_save_type", (rootProject.findProperty("tokenization_card_save_type") ?: "0")
             resValue 'string', "merchant_display", (rootProject.findProperty("tokenization_merchant_display") ?: "0")
             resValue 'string', "banner_hide", (rootProject.findProperty("banner_hide") ?: "0")
+            resValue 'string', "url_trigger", (rootProject.findProperty("url_contain_trigger") ?: "0")
         }
         release {
             minifyEnabled false
@@ -39,10 +36,6 @@ android {
             resValue 'string', "store_name", (rootProject.findProperty("payment_store_name") ?: "0")
             resValue 'string', "secret_code", (rootProject.findProperty("payment_secret_code") ?: "0")
             resValue 'string', "currency",(rootProject.findProperty("payment_currency") ?: "0")
-            resValue 'string', "pub_port", (rootProject.findProperty("payment_pub_port") ?: "0")
-            resValue 'string', "pub_server", (rootProject.findProperty("payment_pub_server") ?: "0")
-            resValue 'string', "pub_username", (rootProject.findProperty("payment_pub_username") ?: "0")
-            resValue 'string', "pub_password", (rootProject.findProperty("payment_pub_password") ?: "0")
             resValue 'string', "callback", (rootProject.findProperty("payment_callback") ?: "0")
             resValue 'string', "merchant_identifier", (rootProject.findProperty("tokenization_merchant_identifier") ?: "0")
             resValue 'string', "token_store_name", (rootProject.findProperty("tokenization_store_name") ?: "0")
@@ -50,6 +43,7 @@ android {
             resValue 'string', "card_save_type", (rootProject.findProperty("tokenization_card_save_type") ?: "0")
             resValue 'string', "merchant_display", (rootProject.findProperty("tokenization_merchant_display") ?: "0")
             resValue 'string', "banner_hide", (rootProject.findProperty("banner_hide") ?: "0")
+            resValue 'string', "url_trigger", (rootProject.findProperty("url_contain_trigger") ?: "0")
         }
     }
 
@@ -58,9 +52,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.google.guava:guava:27.0.1-android'
-    implementation('org.eclipse.paho:org.eclipse.paho.android.service:1.0.2') {
-        exclude module: 'support-v4'
-    }
     annotationProcessor "com.google.dagger:dagger-compiler:2.16"
     implementation "com.google.dagger:dagger:2.16"
     implementation "android.arch.lifecycle:extensions:1.1.1"

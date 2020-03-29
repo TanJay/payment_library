@@ -21,22 +21,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="org.eclipse.paho.android.service.MqttService" >
-        </service>
+
         <meta-data android:name="pg_identifier" android:value="@string/pg_identifier" />
         <meta-data android:name="store_name" android:value="@string/store_name" />
         <meta-data android:name="secret_code" android:value="@string/secret_code" />
         <meta-data android:name="currency" android:value="@string/currency" />
-        <meta-data android:name="pub_port" android:value="@string/pub_port" />
-        <meta-data android:name="pub_server" android:value="@string/pub_server" />
-        <meta-data android:name="pub_username" android:value="@string/pub_username" />
-        <meta-data android:name="pub_password" android:value="@string/pub_password" />
         <meta-data android:name="callback" android:value="@string/callback" />
         <meta-data android:name="merchant_identifier" android:value="@string/merchant_identifier" />
         <meta-data android:name="token_store_name" android:value="@string/token_store_name" />
         <meta-data android:name="language" android:value="@string/language" />
         <meta-data android:name="card_save_type" android:value="@string/card_save_type" />
         <meta-data android:name="merchant_display" android:value="@string/merchant_display" />
+        <meta-data
+            android:name="url_trigger"
+            android:value="@string/url_trigger" />
         <meta-data android:name="banner_hide" android:value="@string/banner_hide" />
     </application>
 

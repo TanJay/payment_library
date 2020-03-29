@@ -6,28 +6,24 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import lk.connectbench.payment.DTOs.AppConfig;
+import lk.connectbench.payment.DTOs.PaymentConfig;
 import lk.connectbench.payment.Enums.StringConfig;
 import lk.connectbench.payment.Exceptions.LoadConfigException;
 
 import static lk.connectbench.payment.Helpers.GeneralHelper.getValue;
 
 
-public class ManifestLoadConfig implements ILoadConfig<AppConfig> {
+public class ManifestLoadConfig implements ILoadConfig<PaymentConfig> {
 
     private static final String TAG = ManifestLoadConfig.class.getClass().getSimpleName();
 
     @Override
-    public AppConfig load(Context context, String amount) throws LoadConfigException {
-        AppConfig config = new AppConfig();
+    public PaymentConfig load(Context context, String amount) throws LoadConfigException {
+        PaymentConfig config = new PaymentConfig();
         config.setPGIdentifier(getMetaData(context, getValue(StringConfig.PG_IDENTIFIER)));
         config.setStoreName(getMetaData(context,  getValue(StringConfig.STORE_NAME)));
         config.setSecretCode(getMetaData(context, getValue(StringConfig.SECRET_CODE)));
         config.setCurrency(getMetaData(context, getValue(StringConfig.CURRENCY)));
-        config.setcBenchPubServer(getMetaData(context, getValue(StringConfig.PUB_SERVER)));
-        config.setcBenchPubPort(getMetaData(context,getValue(StringConfig.PUB_PORT)));
-        config.setcBenchPubServerUserName(getMetaData(context, getValue(StringConfig.PUB_USERNAME)));
-        config.setcBenchPubServerPassword(getMetaData(context, getValue(StringConfig.PUB_PASSWORD)));
         config.setCallbackURL(getMetaData(context, getValue(StringConfig.CALLBACK_URL)));
 
         //General Config Load

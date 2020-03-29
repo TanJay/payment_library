@@ -12,9 +12,8 @@ public class CardSaveConfig {
     private String currency;
     private String amount;
 
-
-
     public CardSaveConfig() {
+
     }
 
     public CardSaveConfig(String invoiceNumber, String merchantDisplayName, String merchantPgIdentifier, String storeName) {

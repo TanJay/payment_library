@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import lk.connectbench.payment.DTOs.AppConfig;
 import lk.connectbench.payment.DTOs.CardSaveConfig;
 import lk.connectbench.payment.Enums.StringConfig;
 import lk.connectbench.payment.Exceptions.LoadConfigException;

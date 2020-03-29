@@ -7,16 +7,13 @@ public enum  StringConfig {
     STORE_NAME("store_name"),
     SECRET_CODE("secret_code"),
     CURRENCY("currency"),
-    PUB_SERVER("pub_server"),
-    PUB_PORT("pub_port"),
-    PUB_USERNAME("pub_username"),
-    PUB_PASSWORD("pub_password"),
     CALLBACK_URL("callback"),
     MERCHANT_IDENTIFIER("merchant_identifier"),
     TOKEN_STORE_NAME("token_store_name"),
     LANGUAGE("language"),
     MERCHANT_NAME("merchant_display"),
     BANNER_HIDE("banner_hide"),
+    URL_CONTAIN_TRIGGER("url_trigger"),
     CARD_SAVE_TYPE("card_save_type");
 
     private final String value;
