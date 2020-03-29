@@ -37,7 +37,7 @@ allprojects {
 ```javascript  
 dependencies {  
       ...  
-        implementation 'com.github.TanJay:payment_library:0.0.3'  
+        implementation 'lk.connectbench:payment_library:0.0.3'  
    }  
 ```  
  Simple Build will install all needed dependencies  
