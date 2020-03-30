@@ -112,6 +112,23 @@ public class GeneralHelper {
         return dateTime;
     }
 
+    private static String generateCardVerification(CardSaveConfig appConfig, String aquireToken) {
+        String postData = null;
+        try {
+            postData =
+                    "aquireToken=" + URLEncoder.encode(aquireToken, "UTF-8")
+                            + "&invoiceNumber=" + URLEncoder.encode(appConfig.getInvoiceNumber(), "UTF-8")
+                            + "&merchantDisplayName=" + URLEncoder.encode(appConfig.getMerchantDisplayName(), "UTF-8")
+                            + "&language=" + URLEncoder.encode("en", "UTF-8")
+                            + "&merchantPgIdentifier=" + URLEncoder.encode(appConfig.getMerchantPgIdentifier(), "UTF-8")
+                            + "&storeName=" + URLEncoder.encode(appConfig.getStoreName(), "UTF-8");
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return postData;
+    }
+
     private static String generateGeniePayment(PaymentConfig paymentConfig) {
         String dateTime = getDateTime();
         String postData = null;

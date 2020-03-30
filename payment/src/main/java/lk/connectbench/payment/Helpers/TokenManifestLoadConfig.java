@@ -33,9 +33,6 @@ public class TokenManifestLoadConfig implements ILoadConfig<CardSaveConfig> {
         return config;
     }
 
-
-
-
     public static String getMetaData(Context context, String name) {
         try {
             ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);

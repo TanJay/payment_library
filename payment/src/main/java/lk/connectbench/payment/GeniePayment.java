@@ -35,7 +35,7 @@ import static lk.connectbench.payment.Enums.AppURL.PAYMENT_ONLY;
 
 public class GeniePayment extends Activity {
     private static final String TAG = GeniePayment.class.getName();
-    static Dialog dialog;
+    public static Dialog dialog;
     private static ResultListnerModel resultListnerModel;
 
 

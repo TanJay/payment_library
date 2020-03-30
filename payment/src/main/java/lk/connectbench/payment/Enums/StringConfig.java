@@ -2,7 +2,7 @@ package lk.connectbench.payment.Enums;
 
 public enum  StringConfig {
     //TAG NAME
-    DATE_FORMAT("yyyy-mm-dd HH:mm:ss"),
+    DATE_FORMAT("YYYY-MM-DD HH:mm:ss"),
     PG_IDENTIFIER("pg_identifier"),
     STORE_NAME("store_name"),
     SECRET_CODE("secret_code"),
